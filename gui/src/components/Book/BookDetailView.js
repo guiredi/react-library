@@ -8,8 +8,9 @@ const { Option } = Select;
 
 const BookDetail = (props) => {
   const {bookID} = props.match.params;
-  const [state, setState] = useState({book: [], name: '', summary:'', authors: '' })
+  const [state, setState] = useState({book: [], name: '', summary:'', authors: [] })
   let history = useHistory()
+
 
   useEffect(() => {
   async function fetchData() {
@@ -19,7 +20,6 @@ const BookDetail = (props) => {
   fetchData();
   }, [bookID]);
 
-  console.log(state.book.author);
 
   const deleteBook = (id) => {
         axios.delete(`http://127.0.0.1:8000/v1/book/${id}/`)
@@ -55,32 +55,26 @@ const BookDetail = (props) => {
           }
         })
         break;
-        case 'summary':
-          setState(prevState => {
-            return {
-              ...prevState,
-              summary: value
-            }
-          })
-          break;
-          case 'authors':
-            setState(prevState => {
-              return {
-                ...prevState,
-                authors: value
-              }
-            })
-            break;
+      case 'summary':
+        setState(prevState => {
+          return {
+            ...prevState,
+            summary: value
+          }
+        })
+        break;
       default:
         return null
     }
   };
+
 
   return(
     <div>
       <Card title= {state.book.name}  bordered={false}  style={{ width: 300 }}/>
       <p> <Button type="danger" htmlType="submit" onClick={()=>{deleteBook(bookID)}}>Delete</Button> </p>
       <p> <Input type="text" name="name" onChange={ e => changeState('name', e.currentTarget.value)} /> </p>
+
       <p> <Button type="primary" htmlType="submit" onClick={()=>updateBook(bookID)}>Update</Button> </p>
     </div>
   );

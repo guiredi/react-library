@@ -32,7 +32,7 @@ const AuthorList = () => {
                 authors: res.data.results
             });
         })
-  },[]);
+  },[state.redirect]);
 
 
 
@@ -42,18 +42,24 @@ const AuthorList = () => {
         }).then(res => {
           if (res.status === 201){
             console.log(">>>>>> CREATE");
-            history.push('/authors/');
+            setState(prevState => {
+              return{
+                ...prevState,
+                redirect:true
+              }
+            })
           }
         })
   }
 
-  const changeState = (key, value) => {
+  const changeState = (key, e) => {
+    const value=e.currentTarget.value
     switch (key) {
       case 'name':
         setState(prevState => {
           return {
             ...prevState,
-            name: value
+            name : value
           }
         })
         break;
@@ -66,10 +72,10 @@ const AuthorList = () => {
 
       <div>
           <Search placeholder="input search text" onSearch={value => console.log(value)} enterButton />
-          <Authors data={state.authors} />
+          <Authors updatelist={state.redirect} data={state.authors} />
           <br />
           <h2>Create an author</h2>
-          <Input type="text" name="name"  placeholder="Put a Author name here" onChange={ e => changeState('name', e.currentTarget.value)} />
+          <Input type="text" name="name"  placeholder="Put a Author name here" onChange={ e => changeState('name', e)} />
           <br />
           <Button type="primary" htmlType="submit" onClick={()=>createAuthor()}>Create</Button>
           {renderRedirect()}
