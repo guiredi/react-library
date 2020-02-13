@@ -3,8 +3,8 @@ import axios from 'axios';
 import { Select } from 'antd';
 
 
-const SelectAuthorBook = () =>{
-  const [state, setState] = useState({ authors: [] })
+const SelectAuthorBook = (props) =>{
+  const [state, setState] = useState({ author: [] })
   const { Option } = Select;
 
   useEffect(() => {
@@ -12,26 +12,19 @@ const SelectAuthorBook = () =>{
         .then(res => {
           console.log(res);
             setState({
-                authors: res.data.results
+                author: res.data.results
             });
         })
   },[]);
 
-  // useEffect(() => {
-  // async function fetchData() {
-  //   const res = await axios.get('http://127.0.0.1:8000/v1/author/');
-  //   setState({authors: res.data.results})
-  // }
-  // fetchData();
-  // }, []);
 
-  const names = state.authors.map(author => {
+  const names = state.author.map(author => {
     return author.name
   })
 
   const children = [];
   names.forEach((item, i) => {
-    children.push(<Option key={i}>{item}</Option>)
+    children.push(<Option key={i} value={item}>{item}</Option>)
   });
 
 
@@ -40,6 +33,7 @@ const SelectAuthorBook = () =>{
       mode="multiple"
       style={{ width: '100%' }}
       placeholder="Please select"
+      onChange={props.data}
     >
     {children}
     </Select>
@@ -47,4 +41,4 @@ const SelectAuthorBook = () =>{
 
 };
 
-export {SelectAuthorBook};
+export default SelectAuthorBook;

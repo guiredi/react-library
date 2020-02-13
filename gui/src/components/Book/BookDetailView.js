@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router"
 import { Button, Card, Input, Select } from 'antd';
-
+import SelectAuthorBook from './select'
 const { Option } = Select;
 
 const BookDetail = (props) => {
   const {bookID} = props.match.params;
-  const [state, setState] = useState({book: [], name: '', summary:'', authors: [] })
+  const [state, setState] = useState({book: [], name: '', summary:'', author: [] })
   let history = useHistory()
 
 
@@ -35,7 +35,7 @@ const BookDetail = (props) => {
         axios.put(`http://127.0.0.1:8000/v1/book/${id}/`, {
               name : state.name,
               summary : state.summary,
-              authors : state.authors
+              author : state.author
 
         }).then(res => {
           if (res.status === 200){
@@ -68,13 +68,29 @@ const BookDetail = (props) => {
     }
   };
 
+  function handleChange(value) {
+    console.log(`selected ${value}`);
+    setState(prevState => {
+      return{
+        ...prevState,
+        author:value
+      }
+    })
+  }
+
 
   return(
     <div>
-      <Card title= {state.book.name}  bordered={false}  style={{ width: 300 }}/>
-      <p> <Button type="danger" htmlType="submit" onClick={()=>{deleteBook(bookID)}}>Delete</Button> </p>
-      <p> <Input type="text" name="name" onChange={ e => changeState('name', e.currentTarget.value)} /> </p>
-
+      <Card title= {state.book.name}  bordered={false}  style={{ width: 300 }}>
+        <p>{state.book.summary}</p>
+        <p>{state.book.author}</p>
+      </Card>
+      <br />
+      <Button type="danger" htmlType="submit" onClick={()=>{deleteBook(bookID)}}>Delete</Button>
+      <h2>Update an Book</h2>
+      <Input type="text" name="name"  placeholder="Put a Author name here" onChange={ e => changeState('name', e.currentTarget.value)} />
+      <Input type="text" name="summary"  placeholder="Put a Summary here" onChange={ e => changeState('summary', e.currentTarget.value)} />
+      <SelectAuthorBook data={handleChange}/>
       <p> <Button type="primary" htmlType="submit" onClick={()=>updateBook(bookID)}>Update</Button> </p>
     </div>
   );

@@ -4,19 +4,19 @@ import axios from 'axios';
 import Authors from './Author';
 import { Input, Button } from 'antd';
 import { Redirect } from 'react-router-dom'
-import { useHistory } from "react-router"
+
 
 const { Search } = Input;
 
 const AuthorList = () => {
   const [state, setState] = useState({ authors: [], name: '', redirect: false })
-  let history = useHistory()
 
-  const setRedirect = () => {
-    setState({
-      redirect: true
-    })
-  }
+  // 
+  // const setRedirect = () => {
+  //   setState({
+  //     redirect: true
+  //   })
+  // }
 
   const renderRedirect = () => {
     if (state.redirect){

@@ -2,8 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Books from './Book';
+import BookFilter from './BookFilter';
 import { Input, Button, Select } from 'antd';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
+import SelectSearch from 'react-select-search';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -11,11 +13,12 @@ const BookList = () => {
   const [state, setState] = useState({ books: [], name: '', summary: '', author: [], redirect: false })
   const [stateAuthors, setStateAuthors] = useState({ authors: []})
 
-  const setRedirect = () => {
-    setState({
-      redirect: true
-    })
-  }
+  // const setRedirect = () => {
+  //   setState({
+  //     redirect: true
+  //   })
+  // }
+
 
   const renderRedirect = () => {
     if (state.redirect){
@@ -43,12 +46,12 @@ const BookList = () => {
   const names = stateAuthors.authors.map(author => {
     return author.name
   })
-  console.log(names);
 
   const children = [];
   names.forEach((item, i) => {
     children.push(<Option key={i} value={item}>{item}</Option>)
   });
+
 
 
   const createAuthor = () => {
@@ -93,7 +96,7 @@ const BookList = () => {
   };
 
   function handleChange(value) {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
     setState(prevState => {
       return{
         ...prevState,
@@ -102,11 +105,13 @@ const BookList = () => {
     })
   }
 
+
+
+
   return (
 
       <div>
-          <Search placeholder="input search text" onSearch={value => console.log(value)} enterButton />
-          <Books data={state.books} />
+          <BookFilter/>
           <br />
           <h2>Create an Book</h2>
           <Input type="text" name="name"  placeholder="Put a Author name here" onChange={ e => changeState('name', e.currentTarget.value)} />
