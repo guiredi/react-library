@@ -10,7 +10,6 @@ function BookFilter() {
     const fetchData = async () => {
       let res = await axios.get('http://127.0.0.1:8000/v1/book/');
       let responseData = res.data.results
-      console.log(responseData);
       let filteredData = responseData.filter(item => {       // third, we defined our filteredData array
         return item.name.includes(enteredFilter);
       });

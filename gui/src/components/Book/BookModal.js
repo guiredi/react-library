@@ -28,6 +28,12 @@ const BookModal = () => {
     children.push(<Option key={i} value={item}>{item}</Option>)
   });
 
+  const renderRedirect = () => {
+    if (state.redirect){
+      return <Redirect to='/authors/' />
+    }
+  }
+
   const createAuthor = () => {
         axios.post(`http://127.0.0.1:8000/v1/book/`, {
               name : state.name,
@@ -35,7 +41,6 @@ const BookModal = () => {
               author: state.author
         }).then(res => {
           if (res.status === 201){
-            console.log(">>>>>> CREATE OK");
             setState(prevState => {
               return{
                 ...prevState,
@@ -70,7 +75,6 @@ const BookModal = () => {
   };
 
   function handleChange(value) {
-    // console.log(`selected ${value}`);
     setState(prevState => {
       return{
         ...prevState,
@@ -90,10 +94,10 @@ const BookModal = () => {
       confirmLoading: false,
     });
     createAuthor();
+    renderRedirect();
   };
 
   const handleCancel = () => {
-    console.log('Clicked cancel button');
     setState({
       visible: false,
     });

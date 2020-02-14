@@ -13,7 +13,6 @@ const AuthorDetail = (props) => {
 
   useEffect(() => {
   async function fetchData() {
-    // You can await here
     const res = await axios.get(`http://127.0.0.1:8000/v1/author/${authorID}/`);
     setState({author: res.data})
   }
@@ -25,7 +24,6 @@ const AuthorDetail = (props) => {
           .then(res =>{
             if (res.status === 204){
               history.push('/authors/');
-              console.log('>>>>>>> Delete OK');
             }
           });
   }
@@ -60,7 +58,7 @@ const AuthorDetail = (props) => {
     <div>
       <Card title= {state.author.name}  bordered={false}  style={{ width: 300 }}/>
       <p> <Button type="danger" htmlType="submit" onClick={()=>{deleteAuthor(authorID)}}>Delete</Button> </p>
-      <p> <Input type="text" name="name" onChange={ e => changeState('name', e.currentTarget.value)} /> </p>
+      <p> <Input type="text" name="name"  placeholder= "Update author name" onChange={ e => changeState('name', e.currentTarget.value)}  /> </p>
       <p> <Button type="primary" htmlType="submit" onClick={()=>updateAuthor(authorID)}>Update</Button> </p>
     </div>
   );

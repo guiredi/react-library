@@ -7,7 +7,7 @@ const Books = (props) => {
       itemLayout="horizontal"
       pagination={{
               onChange: (page) => {
-                  console.log(page);
+
               },
               pageSize: 5,
               }}

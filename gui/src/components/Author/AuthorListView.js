@@ -1,7 +1,6 @@
 
 import React from 'react';
 import AuthorModal from './AuthorModal'
-import AuthorFilter from './AuthorFilter'
 
 
 const AuthorList = () => {
@@ -9,8 +8,6 @@ const AuthorList = () => {
   return (
 
       <div>
-          <AuthorFilter />
-          <br />
           <AuthorModal />
       </div>
   )

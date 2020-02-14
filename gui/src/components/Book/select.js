@@ -10,7 +10,6 @@ const SelectAuthorBook = (props) =>{
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/v1/author/')
         .then(res => {
-          console.log(res);
             setState({
                 author: res.data.results
             });

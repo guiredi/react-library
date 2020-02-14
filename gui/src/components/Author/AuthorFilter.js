@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Author from './Author';
 
-function AuthorFilter() {
+function AuthorFilter(props) {
   const [data, setData] = useState([]);
   const [enteredFilter, setEnteredFilter] = useState("");
 
@@ -10,14 +10,14 @@ function AuthorFilter() {
     const fetchData = async () => {
       let res = await axios.get('http://127.0.0.1:8000/v1/author/');
       let responseData = res.data.results
-      console.log(responseData);
       let filteredData = responseData.filter(item => {
         return item.name.includes(enteredFilter);
       });
       setData(filteredData);
     };
     fetchData();
-  }, [enteredFilter]);
+  }, [enteredFilter, props.data]);
+
 
   return (
     <div>

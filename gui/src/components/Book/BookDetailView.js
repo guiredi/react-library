@@ -11,7 +11,6 @@ const BookDetail = (props) => {
   const [state, setState] = useState({book: [], name: '', summary:'', author: [] })
   let history = useHistory()
 
-
   useEffect(() => {
   async function fetchData() {
     const res = await axios.get(`http://127.0.0.1:8000/v1/book/${bookID}/`);
@@ -21,12 +20,12 @@ const BookDetail = (props) => {
   }, [bookID]);
 
 
+
   const deleteBook = (id) => {
         axios.delete(`http://127.0.0.1:8000/v1/book/${id}/`)
           .then(res =>{
             if (res.status === 204){
               history.push('/books/');
-              console.log('>>>>>>> Delete OK');
             }
           });
   }
@@ -69,7 +68,6 @@ const BookDetail = (props) => {
   };
 
   function handleChange(value) {
-    console.log(`selected ${value}`);
     setState(prevState => {
       return{
         ...prevState,
@@ -78,9 +76,6 @@ const BookDetail = (props) => {
     })
   }
 
-  const names = state.book.map(author => {
-    return author.name
-  })
 
 
   return(
