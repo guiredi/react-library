@@ -5,7 +5,7 @@ import {AuthorList} from './components/Author/AuthorListView';
 import {AuthorDetail} from './components/Author/AuthorDetailView';
 import {BookList} from './components/Book/BookListView';
 import {BookDetail} from './components/Book/BookDetailView';
-import BookFilter from './components/Book/BookFilter';
+import BookModal from './components/Book/BookModal';
 
 const BaseRouter = () => (
     <div>
@@ -14,7 +14,7 @@ const BaseRouter = () => (
         <Route exact path='/authors/:authorID/' component={AuthorDetail} />
         <Route exact path='/books/' component={BookList} />
         <Route exact path='/books/:bookID/' component={BookDetail} />
-        <Route exact path='/filter' component={BookFilter} />
+        <Route exact path='/modal' component={BookModal} />
       </Switch>
     </div>
 );

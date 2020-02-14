@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router"
-import { Button, Card, Input, Select } from 'antd';
+import { Button, Card, Input } from 'antd';
 import SelectAuthorBook from './select'
-const { Option } = Select;
+
 
 const BookDetail = (props) => {
   const {bookID} = props.match.params;
@@ -78,12 +78,17 @@ const BookDetail = (props) => {
     })
   }
 
+  const names = state.book.map(author => {
+    return author.name
+  })
+
 
   return(
     <div>
       <Card title= {state.book.name}  bordered={false}  style={{ width: 300 }}>
         <p>{state.book.summary}</p>
         <p>{state.book.author}</p>
+
       </Card>
       <br />
       <Button type="danger" htmlType="submit" onClick={()=>{deleteBook(bookID)}}>Delete</Button>
