@@ -22,20 +22,14 @@ const AuthorModal = () => {
         });
   };
 
-  const changeState = (key, e) => {
+  const changeState = (e) => {
     const value=e.currentTarget.value
-    switch (key) {
-      case 'name':
-        setState(prevState => {
-          return {
-            ...prevState,
-            name : value
-          }
-        })
-        break;
-      default:
-        return null
-    }
+    setState(prevState => {
+      return {
+        ...prevState,
+        name : value
+      }
+    })
   };
 
   const showModal = () => {
@@ -44,16 +38,14 @@ const AuthorModal = () => {
     });
   };
 
-
   const handleOk = () => {
-
     setState({
+      name:null,
       visible: false,
       confirmLoading: false,
-      redirect:true
+      redirect:true,
     });
     createAuthor();
-
   };
 
   const handleCancel = () => {
@@ -63,6 +55,10 @@ const AuthorModal = () => {
     });
   };
   const { visible, confirmLoading} = state;
+
+// if(isLoading) {
+//   return <Loader/>
+// }
 
   return (
     <div>
@@ -81,7 +77,7 @@ const AuthorModal = () => {
             type="text"
             name="name"
             placeholder="Put a Author name here"
-            onChange={ e => changeState('name', e)}
+            onChange={ e => changeState(e)}
           />
         </Modal>
     </div>

@@ -2,7 +2,7 @@ import { Modal, Button, Input, Select } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-
+import BookFilter from './BookFilter'
 const { Option } = Select;
 
 const BookModal = () => {
@@ -52,36 +52,14 @@ const BookModal = () => {
   };
 
   const changeState = (key, value) => {
-    switch (key) {
-      case 'name':
-        setState(prevState => {
-          return {
-            ...prevState,
-            name: value
-          }
-        })
-        break;
-      case 'summary':
-        setState(prevState => {
-          return {
-            ...prevState,
-            summary: value
-          }
-        })
-        break;
-      default:
-        return null
-    }
-  };
-
-  function handleChange(value) {
     setState(prevState => {
-      return{
+      return {
         ...prevState,
-        author:value
+        [key]: value
       }
     })
   };
+
   const showModal = () => {
     setState({
       visible: true
@@ -104,8 +82,11 @@ const BookModal = () => {
   };
   const { visible, confirmLoading} = state;
 
+  console.log(state)
+
   return (
     <div>
+      <BookFilter data={state.redirect}/>
       <Button type="primary" onClick={showModal}>
         Create Book
       </Button>
@@ -130,7 +111,7 @@ const BookModal = () => {
         mode="multiple"
         style={{ width: '100%' }}
         placeholder="Please select authors"
-        onChange={handleChange}
+        onChange={e => changeState('author', e)}
       >
         {children}
       </Select>

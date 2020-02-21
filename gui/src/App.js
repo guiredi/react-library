@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import BaseRouter from './routes';
 import 'antd/dist/antd.css';
 
 import CustomLayout from './containers/Layout';
 
-class App extends Component {
-  render() {
+const App = () => {
+
     return (
       <div className="App">
         <Router>
@@ -16,7 +16,7 @@ class App extends Component {
         </Router>
       </div>
     );
-  }
+
 }
 
-export default App;
+export { App };

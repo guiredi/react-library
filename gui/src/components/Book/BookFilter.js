@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Books from './Book';
 
-function BookFilter() {
+function BookFilter(props) {
   const [data, setData] = useState([]);
   const [enteredFilter, setEnteredFilter] = useState("");     // second, we create a new useState Hook for our filter
 
@@ -16,7 +16,7 @@ function BookFilter() {
       setData(filteredData);                                 // fourth, we used setEnteredFilter to set out local filter state
     };
     fetchData();                                             // fifth, we called out fetchData function inside useEffect Hook
-  }, [enteredFilter]);                                       // sixth, we set enteredFilter as a dependency
+  }, [enteredFilter, props.data]);                                       // sixth, we set enteredFilter as a dependency
 
   return (
     <div>
