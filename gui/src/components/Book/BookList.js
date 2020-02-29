@@ -2,12 +2,38 @@ import { Modal, Button, Input, Select } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import BookFilter from './BookFilter'
+import Books from './Book';
+
+
 const { Option } = Select;
 
-const BookModal = () => {
-  const [state, setState] = useState({name: '', summary: '', author: [],  visible: false, confirmLoading:false , redirect: false})
+
+const BookList = () => {
+  
+  const [state, setState] = useState({name: '', summary: '', author: [],  visible: false, confirmLoading:false})
   const [stateAuthors, setStateAuthors] = useState({ authors: []})
+  const [data, setData] = useState([]);
+  const [enteredFilter, setEnteredFilter] = useState("");
+  const [redirect, setRedirect] = useState(false)
+
+  useEffect(() => {
+    setRedirect(false)
+    const fetchData = async () => {
+      let res = await axios.get('http://127.0.0.1:8000/v1/book/');
+      let responseData = res.data.results
+      let filteredData = responseData.filter(item => {
+        return item.name.includes(enteredFilter);
+      });
+      setData(filteredData);
+    };
+    fetchData();
+  }, [enteredFilter, redirect])
+
+  const redirectBook = () => {
+    if (redirect){
+      return <Redirect to='/v1/book/'/>;
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,25 +54,15 @@ const BookModal = () => {
     children.push(<Option key={i} value={item}>{item}</Option>)
   });
 
-  const renderRedirect = () => {
-    if (state.redirect){
-      return <Redirect to='/authors/' />
-    }
-  }
 
-  const createAuthor = () => {
+  const createBook = () => {
         axios.post(`http://127.0.0.1:8000/v1/book/`, {
               name : state.name,
               summary: state.summary,
               author: state.author
         }).then(res => {
           if (res.status === 201){
-            setState(prevState => {
-              return{
-                ...prevState,
-                redirect:true
-              }
-            });
+            setRedirect(true)
           }
         });
   };
@@ -71,8 +87,8 @@ const BookModal = () => {
       visible: false,
       confirmLoading: false,
     });
-    createAuthor();
-    renderRedirect();
+    createBook();
+    setRedirect(true);
   };
 
   const handleCancel = () => {
@@ -86,7 +102,14 @@ const BookModal = () => {
 
   return (
     <div>
-      <BookFilter data={state.redirect}/>
+    <div>
+        <input
+          placeholder="Search Names"
+          value={enteredFilter}
+          onChange={e => setEnteredFilter(e.target.value)}
+        />
+        <Books data={data}/>
+      </div>
       <Button type="primary" onClick={showModal}>
         Create Book
       </Button>
@@ -119,7 +142,6 @@ const BookModal = () => {
     </div>
   );
 
-
 }
 
-export default BookModal;
+export default BookList;

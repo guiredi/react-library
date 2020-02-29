@@ -82,7 +82,7 @@ const BookDetail = (props) => {
         <p>{books.summary}</p>
 
       <Collapse defaultActiveKey={['1']}>
-        <Panel header="Book Authors" key="1">
+        <Panel header="Authors" key="1">
           <ul>
             {authors.map((author) =>
                 <li key={author.id}>

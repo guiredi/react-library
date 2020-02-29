@@ -68,7 +68,7 @@ const AuthorDetail = (props) => {
     <div>
       <Card title= {state.author.name}  bordered={false}  style={{ width: 300 }}/>
       <Collapse defaultActiveKey={['1']}>
-        <Panel header="Author Books" key="1">
+        <Panel header="Books" key="1">
           <ul>
             {books.map((book) =>
                 <li key={book.id}>

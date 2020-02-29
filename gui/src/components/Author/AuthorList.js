@@ -1,23 +1,42 @@
 import { Modal, Button, Input } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import axios from 'axios';
-import AuthorFilter from './AuthorFilter'
+import Author from './Author';
+import { Redirect } from 'react-router';
 
-const AuthorModal = () => {
 
-  const [state, setState] = useState({ name: '', visible: false, confirmLoading:false , redirect: false});
+const AuthorList = () => {
+
+  const [state, setState] = useState({ name: '', visible: false, confirmLoading:false});
+  const [redirect, setRedirect] = useState(false)
+  const [data, setData] = useState([]);
+  const [enteredFilter, setEnteredFilter] = useState("");
+
+  useEffect(() => {
+    setRedirect(false)
+    const fetchData = async () => {
+      let res = await axios.get('http://127.0.0.1:8000/v1/author/');
+      let responseData = res.data.results
+      let filteredData = responseData.filter(item => {
+        return item.name.includes(enteredFilter);
+      });
+      setData(filteredData);
+    };
+    fetchData();
+  }, [enteredFilter, redirect]);
+
+  const redirectAuthor = () => {
+    if (redirect){
+      return <Redirect to='/v1/author/'/>;
+    }
+  }
 
   const createAuthor = () => {
         axios.post(`http://127.0.0.1:8000/v1/author/`, {
               name : state.name
         }).then(res => {
           if (res.status === 201){
-            setState(prevState => {
-              return{
-                ...prevState,
-                redirect:true
-              }
-            });
+            setRedirect(true)
           }
         });
   };
@@ -43,9 +62,9 @@ const AuthorModal = () => {
       name:null,
       visible: false,
       confirmLoading: false,
-      redirect:true,
     });
     createAuthor();
+    setRedirect(true)
   };
 
   const handleCancel = () => {
@@ -62,7 +81,14 @@ const AuthorModal = () => {
 
   return (
     <div>
-        <AuthorFilter data={state.redirect}/>
+        <div>
+          <input
+            placeholder="Search Names"
+            value={enteredFilter}
+            onChange={e => setEnteredFilter(e.target.value)}
+          />
+          <Author data={data}/>
+        </div>
         <Button type="primary" onClick={showModal}>
           Create Author
         </Button>
@@ -84,4 +110,4 @@ const AuthorModal = () => {
   );
 };
 
-export default AuthorModal;
+export default AuthorList;
