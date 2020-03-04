@@ -9,7 +9,7 @@ const { Option } = Select;
 
 
 const BookList = () => {
-  
+
   const [state, setState] = useState({name: '', summary: '', author: [],  visible: false, confirmLoading:false})
   const [stateAuthors, setStateAuthors] = useState({ authors: []})
   const [data, setData] = useState([]);
@@ -29,11 +29,6 @@ const BookList = () => {
     fetchData();
   }, [enteredFilter, redirect])
 
-  const redirectBook = () => {
-    if (redirect){
-      return <Redirect to='/v1/book/'/>;
-    }
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,13 +77,17 @@ const BookList = () => {
     });
   };
 
+  const refreshpage = () => {
+    window.location.reload();
+  }
+
   const handleOk = () => {
     setState({
       visible: false,
       confirmLoading: false,
     });
     createBook();
-    setRedirect(true);
+    refreshpage();
   };
 
   const handleCancel = () => {

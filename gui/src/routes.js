@@ -14,7 +14,7 @@ const BaseRouter = () => (
         <Route exact path='/authors/:authorID/' component={AuthorDetail} />
         <Route exact path='/books/' component={BookList} />
         <Route exact path='/books/:bookID/' component={BookDetail} />
-        <Route path='*' redirectTo="/authors"/>
+        <Route path='*' redirectTo="/authors/"/>
       </Switch>
     </div>
 );
